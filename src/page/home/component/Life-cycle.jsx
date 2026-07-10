@@ -7,7 +7,7 @@ export const Lifecycle = () => {
         <div className="col-xs-12 col-sm-12 col-lg-6">
           <h2 className="mb-5 fs-3">Trust with confidence</h2>
           <div className="mb-4">
-            <h3 className="fs-3">Customer-first always</h3>
+            <h3 className="fs-3"></h3>
             <p className="text-muted">
               That's why 1.6+ crore customers trust Zerodha with ~ ₹6 lakh 
               crores of equity investments, making us India’s largest broker;

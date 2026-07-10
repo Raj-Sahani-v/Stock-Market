@@ -1,16 +1,47 @@
-import React from 'react'
-import {Link} from 'react-router'
+import React from "react";
+import { Link } from "react-router";
+import { ZeroRisk } from "./ZeroRisk";
 
 export const Hero = () => {
   return (
-    <div className='container-lg container-fluid '>
-        <div className='row text-center'>
-            <img src="/images/homeHero.png" alt="hero" className='mb-3' />
-            <h1>Invest in everything</h1>
-            <p>Online platform to invest in stocks, derivatives, mutual funds, ETFs, bonds, and more.</p>
-            <button className="btn btn-primary p-2 fs-5" type="submit" style={{width:"25%",margin:"0 auto"}} > <Link to={'/signup'} style={{color:"white"}} >Sign up for free</Link> </button>
+    <div className="container-lg container-fluid mt-5 ">
+      <div className="row">
+       <div className="ms-5 text-center" >
+         <ZeroRisk/>
+       </div>
+        {/* <div className="text-start mb-5 mt-5 ms-5 p-3" style={{width:"100vw"}} >
+            <h1 style={{fontSize:"60px"}} >Master the Stock Market</h1>
+            <h1 style={{fontSize:"60px"}} >with Zero Risk</h1>
+          </div> */}
+        <div className="row m-5 ">
+          
+          <div className="col text-muted mt-2" style={{width:"40%",}} > 
+            <p className="" style={{textAlign:"justify"}}>
+            Trade with real-time market data using virtual money. Practice
+            strategies, build your portfolio, and complete with traders
+            worldwide - without losing a single rupee.
+          </p>
+          <ul>
+            <li>10,000+ Active Traders</li>
+            <li>Real-time NSE & BSE</li>
+            <li>$1 Crore+ Vitual Portfolio Value Traded Daily</li>
+          </ul>
+          </div>
+
+          <div className="col-lg-6 text-center mt-5 ">
+            <button
+            className="btn btn-primary p-2 fs-6 mt-3"
+            type="submit"
+            style={{ width: "30%", margin: "0 auto", backgroundColor: "green" }}
+          >
+            {" "}
+            <Link to={"/signup"} style={{ color: "white" }}>
+              Start Trading Now
+            </Link>{" "}
+          </button>
+          </div>
         </div>
-        
+      </div>
     </div>
-  )
-}
+  );
+};
