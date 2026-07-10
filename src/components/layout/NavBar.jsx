@@ -17,7 +17,7 @@ export const NavBar = () => {
       <span className="navbar-toggler-icon"></span>
     </button>
 
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+    <div className="collapse navbar-collapse pe-lg-5" id="navbarSupportedContent">
       <ul className
       ="navbar-nav ms-auto">
         <li className="nav-item">
