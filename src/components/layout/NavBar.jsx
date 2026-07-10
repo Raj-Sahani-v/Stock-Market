@@ -7,8 +7,8 @@ export const NavBar = () => {
   <div class="container-fluid">
 
     
-    <Link class="navbar-brand d-flex align-items-center" to="/">
-      <img src="images/logo.svg" alt="Log" style={{width:"25%"}} class="me-2"/>
+    <Link class="navbar-brand d-flex align-items-center ps-lg-5 " to="/">
+      <img src="images/newlogo.jpeg" alt="brand logo" style={{width:"15%",}} class="me-2"/>
     </Link>
 
     <button class="navbar-toggler" type="button"
@@ -40,4 +40,4 @@ export const NavBar = () => {
   </div>
 </nav>
   )
-}
+} 
