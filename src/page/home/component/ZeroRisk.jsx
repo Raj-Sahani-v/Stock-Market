@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import "./ZeroRisk.css"
-export const ZeroRisk = ()=> {
+import "./ZeroRisk.css";
+export const ZeroRisk = () => {
   const text = "Zero Risk";
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -30,14 +30,16 @@ export const ZeroRisk = ()=> {
   }, [displayText, isDeleting]);
 
   return (
-    <div className="mt-5" >
-    <h1 className="hero" >
-      Master the Stock Market 
-     
-      
-    </h1>
-    <h1 className="hero"> with {""}<span className="text" id="zero" >{displayText}</span>
-      <span className="cursor">|</span></h1>
-      </div>
+    <div className="mt-5">
+      <h1 className="hero">Master the Stock Market</h1>
+      <h1 className="hero">
+        {" "}
+        with {""}
+        <span className="text" id="zero">
+          {displayText}
+        </span>
+        <span className="cursor">|</span>
+      </h1>
+    </div>
   );
-}
+};

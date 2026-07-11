@@ -4,7 +4,7 @@ export function Education(){
 
             <div className="row">
                 <div className="col-lg-6 text-center mt-5 mb-4">
-                    <a href=""><img src="/images/index-education.svg" alt="" /></a>
+                    <a href=""><img src="/images/index-education.svg" alt="" style={{width:"20%"}} /></a>
                 </div>
                 <div className="col-lg-6">
                     <h2 className='mt-5'>Free and open market education</h2>
