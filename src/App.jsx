@@ -10,6 +10,7 @@ import { Product } from "./page/product/Product";
 import { Support } from "./page/support/Support";
 import { Signup } from "./page/signup/Signup";
 import { PageNotFound } from "./components/layout/PageNotFound";
+import { Login } from "./components/UI/Login";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/support" element={<Support/>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/*" element={<PageNotFound/>} />
+          <Route path="/login" element={<Login/>} />
         </Routes>
         <Footer/>
       </BrowserRouter>

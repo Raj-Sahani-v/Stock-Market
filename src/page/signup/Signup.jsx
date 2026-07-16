@@ -1,168 +1,210 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router";
 
 export const Signup = () => {
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("");
   const [conformPassword, setConformPassword] = useState("");
   const [term, setTerm] = useState(false);
   const [error, setError] = useState("");
-  // const [data , setData] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
+  const passwordsMatch =
+    conformPassword.length > 0 && password === conformPassword;
+  const passwordsMismatch =
+    conformPassword.length > 0 && password !== conformPassword;
 
-
-  const handleSubmit = (event) => {
-    if (password === conformPassword) {
-    
-      if (term) {
-        const data = {
-          phone:phone,
-          
-          password,
-          conformPassword,
-          term:term,
-        };
-        try {
-          axios.post("http://localhost:7000/signup",data).then(()=>{console.log("data is send backend")})
-        } catch (error) {
-          console.log(error)
-        }
-         console.log("formData :", data);
-          
-
-      }
-    }else{console.log("hacker")}
-
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setConformPassword("")
-    setPassword("")
-    setPhone("")
-    setTerm("")
+    setError("");
+
+    if (!phone || !password || !conformPassword) {
+      setError("Please fill all the fields.");
+      return;
+    }
+
+    if (password !== conformPassword) {
+      setError("Password and Confirm Password do not match.");
+      return;
+    }
+
+    if (!term) {
+      setError("You must agree to the terms and conditions.");
+      return;
+    }
+
+    const data = { phone, password, conformPassword, term };
+
+    try {
+      setLoading(true);
+      await axios.post("http://localhost:7000/api/v1/users/signup", data);
+      console.log("Signup successful:", data);
+
+      setPhone("");
+      setPassword("");
+      setConformPassword("");
+      setTerm(false);
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="container mt-5 text-center ">
-      <div className="row  ">
-        <div className="col  border p-2 ">
-          <form class="row g-3 d-grid " style={{ placeItems: "center" }}>
-            <div class="col-md-4 d-flex ">
-              <label for="validationServerUsername" class="form-label me-auto">
-                Phone no./email
+    <div className="container mt-5 mb-5 d-flex justify-content-center">
+      <div
+        className="card shadow-lg border-0"
+        style={{ maxWidth: "480px", width: "100%", borderRadius: "16px" }}
+      >
+        <div className="card-body p-4 p-md-5">
+          <h3 className="text-center fw-bold mb-1">Create Account</h3>
+          <p className="text-center text-muted mb-4">
+            Sign up to get started
+          </p>
+
+          {error && (
+            <div className="alert alert-danger py-2 text-center" role="alert">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} noValidate>
+            {/*--------------------------------- Phone / Email */}
+            <div className="mb-3">
+              <label htmlFor="signupPhone" className="form-label fw-semibold">
+                Phone no. / Email
               </label>
-              <div
-                className="input-group has-validation  "
-                style={{ width: "50vw" }}
-              >
-                <span className="input-group-text" id="inputGroupPrepend3">
+              <div className="input-group">
+                <span className="input-group-text bg-light">
                   <i className="fa-solid fa-envelope"></i>
                 </span>
                 <input
                   type="text"
-                  className="form-control is-valid"
-                  id="validationServerUsername"
-                  aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                  name="phone"
-                  onChange={(e) => setPhone(e.target.value)}
+                  className="form-control"
+                  id="signupPhone"
+                  placeholder="Enter phone number or email"
                   value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   required
                 />
-                <div
-                  id="validationServerUsernameFeedback"
-                  className="valid-feedback"
-                >
-                  Please choose a phone.
-                </div>
               </div>
             </div>
-            <div className="col-md-4 d-flex ">
-              <label for="validationServerUsername" class="form-label me-auto">
+
+            {/*---------------------------------- Password */}
+            <div className="mb-3">
+              <label htmlFor="signupPassword" className="form-label fw-semibold">
                 Password
               </label>
-              <div
-                className="input-group has-validation"
-                style={{ width: "50vw" }}
-              >
-                <span className="input-group-text" id="inputGroupPrepend3">
-                  @
+              <div className="input-group">
+                <span className="input-group-text bg-light">
+                  <i className="fa-solid fa-lock"></i>
                 </span>
                 <input
-                  type="password"
-                  class="form-control is-invalid"
-                  id="validationServerUsername"
-                  aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  className="form-control"
+                  id="signupPassword"
+                  placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <div
-                  id="validationServerUsernameFeedback"
-                  class="invalid-feedback"
+                <span
+                  className="input-group-text bg-light"
+                  role="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
                 >
-                  Not match.
-                </div>
+                  <i
+                    className={`fa-solid ${
+                      showPassword ? "fa-eye-slash" : "fa-eye"
+                    }`}
+                  ></i>
+                </span>
               </div>
             </div>
-            <div class="col-md-4 d-flex">
-              <label for="validationServerUsername" class="form-label me-auto">
-                Conform-password
+
+            {/*-------------------- Confirm Password */}
+            <div className="mb-3">
+              <label htmlFor="signupConfirmPassword" className="form-label fw-semibold">
+                Confirm Password
               </label>
-              <br />
-              <div class="input-group has-validation" style={{ width: "50vw" }}>
-                <span class="input-group-text" id="inputGroupPrepend3">
-                  @
+              <div className="input-group has-validation">
+                <span className="input-group-text bg-light">
+                  <i className="fa-solid fa-lock"></i>
                 </span>
                 <input
-                  type="password"
-                  className="form-control is-invalid"
-                  id="validationServerUsername"
-                  aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                  name="conformPassword"
+                  type={showPassword ? "text" : "password"}
+                  className={`form-control ${
+                    passwordsMatch
+                      ? "is-valid"
+                      : passwordsMismatch
+                      ? "is-invalid"
+                      : ""
+                  }`}
+                  id="signupConfirmPassword"
+                  placeholder="Re-enter password"
                   value={conformPassword}
                   onChange={(e) => setConformPassword(e.target.value)}
                   required
                 />
-                <div
-                  id="validationServerUsernameFeedback"
-                  className="invalid-feedback"
-                >
-                  Not match.
-                </div>
+                <div className="invalid-feedback">Passwords do not match.</div>
+                {passwordsMatch && (
+                  <div className="valid-feedback">Passwords match.</div>
+                )}
               </div>
             </div>
 
-            <div className="col-12">
-              <div className="form-check">
-                <input
-                  className="form-check-input is-invalid"
-                  type="checkbox"
-                  checked = {term}
-                  onChange={(e) => {
-                    setTerm(e.target.checked);
-                  }}
-                  id="invalidCheck3"
-                  aria-describedby="invalidCheck3Feedback"
-                  required
-                />
-                <label className="form-check-label" for="invalidCheck3">
-                  Agree to terms and conditions
-                </label>
-                <div id="invalidCheck3Feedback" className="invalid-feedback">
-                  You must agree before submitting.
-                </div>
-              </div>
+            {/* ------------------------------Terms */}
+            <div className="form-check mb-4">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={term}
+                onChange={(e) => setTerm(e.target.checked)}
+                id="agreeTerms"
+                required
+              />
+              <label className="form-check-label" htmlFor="agreeTerms">
+                I agree to the{" "}
+                <a href="" className="text-decoration-none">
+                  terms and conditions
+                </a>
+              </label>
             </div>
-            <div className="col-12">
+
+            {/*-------------------- Submit */}
+            <div className="d-grid mb-3">
               <button
-                className="btn btn-primary"
+                className="btn btn-primary py-2 fw-semibold"
                 type="submit"
-                onClick={handleSubmit}
+                disabled={loading}
               >
-                Submit form
+                {loading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                    ></span>
+                    Signing up...
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </div>
+
+            <p className="text-center mb-0">
+              Already have an account?{" "}
+              <Link to="/login" className="fw-semibold text-decoration-none">
+                Login Now
+              </Link>
+            </p>
           </form>
         </div>
       </div>
